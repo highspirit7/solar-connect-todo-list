@@ -5,6 +5,7 @@ import TodoContainer from "./components/todo/TodoContainer";
 
 function App() {
   //@TODO login
+  // eslint-disable-next-line prefer-const
   let isLogged = true;
 
   const RenderLayout = (
