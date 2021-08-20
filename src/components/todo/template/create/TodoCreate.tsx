@@ -50,16 +50,10 @@ const Input = styled.input`
 `;
 
 interface TodoCreateProps {
-  nextId: number;
-  createTodo: (todo: Itodo) => void;
-  incrementNextId: () => void;
+  createTodo: (text: string) => void;
 }
 
-const TodoCreate = ({
-  nextId,
-  createTodo,
-  incrementNextId,
-}: TodoCreateProps) => {
+const TodoCreate = ({ createTodo }: TodoCreateProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -70,12 +64,7 @@ const TodoCreate = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 새로고침 방지
 
-    createTodo({
-      id: nextId,
-      text: value,
-      done: false,
-    });
-    incrementNextId(); // nextId 하나 증가
+    createTodo(value);
 
     setValue(""); // input 초기화
     setOpen(false); // open 닫기

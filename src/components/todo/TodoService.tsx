@@ -9,8 +9,8 @@ export type Itodo = {
 let initialTodos: Itodo[] = [];
 
 export const useTodo = () => {
-  const [todoState, setTodoState] = useState(initialTodos);
-  let nextIdState = 0;
+  const [todoState, setTodoState] = useState<Itodo[]>(initialTodos);
+  // let nextIdState = 0;
 
   useEffect(() => {
     loadData();
@@ -20,26 +20,41 @@ export const useTodo = () => {
     saveData();
   }, [todoState]);
 
-  const incrementNextId = () => {
-    nextIdState = nextIdState + 1;
-  };
+  // const incrementNextId = () => {
+  //   nextIdState = nextIdState + 1;
+  // };
 
   const toggleTodo = (id: number) => {
-    //@TODO
+    //@TODO(완료)
+    const todos = todoState.map((todo) => {
+      if (todo.id === id) {
+        todo.done = !todo.done;
+      }
+
+      return todo;
+    });
+
+    setTodoState(todos);
   };
 
   const removeTodo = (id: number) => {
     setTodoState((prevState) =>
-      prevState.filter((todo: Itodo) => todo.id === id),
+      prevState
+        .filter((todo: Itodo) => todo.id !== id)
+        .map((todo: Itodo, index) => {
+          todo.id = index + 1;
+          return todo;
+        }),
     );
   };
 
-  const createTodo = (todo: Itodo) => {
+  const createTodo = (text: string) => {
     const nextId = todoState.length + 1;
     setTodoState((prevState) =>
       prevState.concat({
-        ...todo,
         id: nextId,
+        text,
+        done: false,
       }),
     );
   };
@@ -48,7 +63,7 @@ export const useTodo = () => {
     const data = localStorage.getItem("todos");
     if (data) initialTodos = JSON.parse(data);
     if (initialTodos && initialTodos.length >= 1) {
-      incrementNextId();
+      // incrementNextId();
       setTodoState(initialTodos);
     }
   };
@@ -59,8 +74,8 @@ export const useTodo = () => {
 
   return {
     todoState,
-    nextIdState,
-    incrementNextId,
+    // nextIdState,
+    // incrementNextId,
     toggleTodo,
     removeTodo,
     createTodo,

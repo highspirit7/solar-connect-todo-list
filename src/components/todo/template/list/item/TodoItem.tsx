@@ -4,6 +4,28 @@ import { Itodo } from "components/todo/TodoService";
 import React from "react";
 import styled, { css } from "styled-components";
 
+interface TodoItemProps {
+  toggleTodo: (id: number) => void;
+  removeTodo: (id: number) => void;
+  todo: Itodo;
+}
+
+const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+  const { id, text, done } = todo;
+
+  return (
+    <TodoItemBlock>
+      <CheckCircle done={done} onClick={() => toggleTodo(id)}>
+        {done && <CheckOutlined />}
+      </CheckCircle>
+      <Text done={done}>{text}</Text>
+      <Remove onClick={() => removeTodo(id)}>
+        <DeleteOutlined />
+      </Remove>
+    </TodoItemBlock>
+  );
+};
+
 const Remove = styled.div`
   display: flex;
   align-items: center;
@@ -54,30 +76,5 @@ const Text = styled.div<{ done: boolean }>`
       text-decoration: line-through;
     `}
 `;
-
-interface TodoItemProps {
-  toggleTodo: (id: number) => void;
-  removeTodo: (id: number) => void;
-  todo: Itodo;
-}
-
-const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
-  const done = false;
-  const handleToggle = () => {};
-
-  const handleRemove = () => {};
-
-  return (
-    <TodoItemBlock>
-      <CheckCircle done={done} onClick={handleToggle}>
-        {done && <CheckOutlined />}
-      </CheckCircle>
-      <Text done={done}>{todo.text}</Text>
-      <Remove onClick={handleRemove}>
-        <DeleteOutlined />
-      </Remove>
-    </TodoItemBlock>
-  );
-};
 
 export default React.memo(TodoItem);
