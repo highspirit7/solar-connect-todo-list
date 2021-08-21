@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { DatePicker } from "antd";
+import { DatePicker, Modal } from "antd";
 import moment from "moment";
 interface TodoCreateProps {
   createTodo: (text: string, date: string) => void;
@@ -18,13 +18,27 @@ const TodoCreate = ({ createTodo }: TodoCreateProps) => {
     setValue(e.target.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const yesterdayDate = moment().subtract(1, "days");
+
     e.preventDefault(); // 새로고침 방지
 
-    createTodo(value, dateString);
+    if (dateString && !yesterdayDate.isBefore(dateString)) {
+      Modal.warning({
+        title: "Warning",
+        content: "오늘보다 이전 날짜를 완료 목표일로 입력할 수 없습니다",
+      });
+    } else if (!dateString || !value) {
+      Modal.warning({
+        title: "Warning",
+        content: "완료 목표일 혹은 투두아이템 입력을 완료해주시기 바랍니다",
+      });
+    } else {
+      createTodo(value, dateString);
 
-    setValue(""); // input 초기화
-    setDateString(""); // dateString 초기화
-    setDateMoment(null); // DatePicker 컴포넌트 value 초기화
+      setValue(""); // input 초기화
+      setDateString(""); // dateString 초기화
+      setDateMoment(null); // DatePicker 컴포넌트 value 초기화
+    }
   };
 
   const handleChangeDate = (date: moment.Moment | null, dateString: string) => {
