@@ -7,11 +7,17 @@ export type Itodo = {
   date: string;
 };
 
+type UseTodoTypes = {
+  todoState: Itodo[];
+  toggleTodo: (id: number) => void;
+  removeTodo: (id: number) => void;
+  createTodo: (text: string, date: string) => void;
+};
+
 let initialTodos: Itodo[] = [];
 
-export const useTodo = () => {
+export const useTodo = (): UseTodoTypes => {
   const [todoState, setTodoState] = useState<Itodo[]>(initialTodos);
-  // let nextIdState = 0;
 
   useEffect(() => {
     loadData();
@@ -20,10 +26,6 @@ export const useTodo = () => {
   useEffect(() => {
     saveData();
   }, [todoState]);
-
-  // const incrementNextId = () => {
-  //   nextIdState = nextIdState + 1;
-  // };
 
   const toggleTodo = (id: number) => {
     //@TODO(완료)
@@ -65,7 +67,6 @@ export const useTodo = () => {
     const data = localStorage.getItem("todos");
     if (data) initialTodos = JSON.parse(data);
     if (initialTodos && initialTodos.length >= 1) {
-      // incrementNextId();
       setTodoState(initialTodos);
     }
   };
@@ -76,8 +77,6 @@ export const useTodo = () => {
 
   return {
     todoState,
-    // nextIdState,
-    // incrementNextId,
     toggleTodo,
     removeTodo,
     createTodo,

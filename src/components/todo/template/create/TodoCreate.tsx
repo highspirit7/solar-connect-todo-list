@@ -4,7 +4,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { DatePicker } from "antd";
 import moment from "moment";
 
-import { warning, success } from "utils/modals";
+import { warning } from "utils/modals";
 
 interface TodoCreateProps {
   createTodo: (text: string, date: string) => void;
