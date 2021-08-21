@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { DatePicker, Modal } from "antd";
+import { DatePicker } from "antd";
 import moment from "moment";
+
+import { warning, success } from "utils/modals";
+
 interface TodoCreateProps {
   createTodo: (text: string, date: string) => void;
 }
@@ -22,22 +25,36 @@ const TodoCreate = ({ createTodo }: TodoCreateProps) => {
 
     e.preventDefault(); // 새로고침 방지
 
-    if (dateString && !yesterdayDate.isBefore(dateString)) {
-      Modal.warning({
+    if (!value) {
+      const warningData = {
+        title: "Warning",
+        content: "투두 아이템 내용을 입력해주세요",
+      };
+
+      warning(warningData);
+    } else if (!dateString) {
+      const warningData = {
+        title: "Warning",
+        content: "완료 목표일 설정이 필요합니다",
+      };
+
+      warning(warningData);
+    } else if (dateString && !yesterdayDate.isBefore(dateString)) {
+      const warningData = {
         title: "Warning",
         content: "오늘보다 이전 날짜를 완료 목표일로 입력할 수 없습니다",
-      });
-    } else if (!dateString || !value) {
-      Modal.warning({
-        title: "Warning",
-        content: "완료 목표일 혹은 투두아이템 입력을 완료해주시기 바랍니다",
-      });
+      };
+
+      warning(warningData);
     } else {
       createTodo(value, dateString);
 
       setValue(""); // input 초기화
       setDateString(""); // dateString 초기화
       setDateMoment(null); // DatePicker 컴포넌트 value 초기화
+
+      // 사용하지 않는 것이 더 좋은 UX일 것으로 판단
+      // success({ content: "투두 아이템이 성공적으로 추가되었습니다!" });
     }
   };
 
@@ -106,6 +123,7 @@ const CircleButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const InsertFormPositioner = styled.div`
