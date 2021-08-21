@@ -8,7 +8,6 @@ interface TodoCreateProps {
 }
 
 const TodoCreate = ({ createTodo }: TodoCreateProps) => {
-  // const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [dateString, setDateString] = useState("");
   const [dateMoment, setDateMoment] = useState<any>(null);
