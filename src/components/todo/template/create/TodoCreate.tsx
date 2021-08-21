@@ -13,6 +13,7 @@ interface TodoCreateProps {
 const TodoCreate = ({ createTodo }: TodoCreateProps) => {
   const [value, setValue] = useState("");
   const [dateString, setDateString] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dateMoment, setDateMoment] = useState<any>(null);
 
   const formRef = React.useRef<HTMLFormElement>(null);
