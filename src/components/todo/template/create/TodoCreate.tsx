@@ -1,17 +1,91 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Itodo } from "components/todo/TodoService";
+import { DatePicker } from "antd";
+import moment from "moment";
+interface TodoCreateProps {
+  createTodo: (text: string, date: string) => void;
+}
 
-const CircleButton = styled.button<{ open: boolean }>`
-  background: #33bb77;
-  width: 50px;
-  height: 50px;
+const TodoCreate = ({ createTodo }: TodoCreateProps) => {
+  // const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [dateString, setDateString] = useState("");
+  const [dateMoment, setDateMoment] = useState<any>(null);
+
+  const formRef = React.useRef<HTMLFormElement>(null);
+
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValue(e.target.value);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // 새로고침 방지
+
+    createTodo(value, dateString);
+
+    setValue(""); // input 초기화
+    setDateString(""); // dateString 초기화
+    setDateMoment(null); // DatePicker 컴포넌트 value 초기화
+  };
+
+  const handleChangeDate = (date: moment.Moment | null, dateString: string) => {
+    setDateString(dateString);
+    setDateMoment(date);
+  };
+
+  return (
+    <>
+      <InsertFormPositioner>
+        <InsertForm onSubmit={handleSubmit} ref={formRef}>
+          <DateWrapper>
+            <DatePicker
+              onChange={handleChangeDate}
+              size="large"
+              id="date"
+              name="date"
+              value={dateMoment}
+            />
+          </DateWrapper>
+
+          <InputWrapper>
+            <Input
+              autoFocus
+              placeholder="What's need to be done?"
+              onChange={handleChangeInput}
+              value={value}
+              id="input"
+              name="input"
+            />
+            <CircleButton>
+              <PlusCircleOutlined />
+            </CircleButton>
+          </InputWrapper>
+        </InsertForm>
+      </InsertFormPositioner>
+    </>
+  );
+};
+
+const DateWrapper = styled.div`
+  width: 400px;
+  display: flex;
+  margin-bottom: 12px;
+`;
+
+const InputWrapper = styled.div`
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: 60px;
-  left: 50%;
-  transform: translate(50%, 0%);
+`;
+
+const CircleButton = styled.button`
+  background: #33bb77;
+  width: 40px;
+  height: 40px;
+  font-size: 42px;
+  left: 100%;
+  transform: translate(100%, 0%);
   color: white;
   border-radius: 50%;
   border: none;
@@ -28,6 +102,8 @@ const InsertFormPositioner = styled.div`
 
 const InsertForm = styled.form`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   background: #eeeeee;
   padding-left: 40px;
   padding-top: 36px;
@@ -36,11 +112,11 @@ const InsertForm = styled.form`
 `;
 
 const Input = styled.input`
-  padding: 12px;
+  padding: 8px;
   border: 1px solid #dddddd;
   width: 100%;
   outline: none;
-  font-size: 21px;
+  font-size: 20px;
   box-sizing: border-box;
   color: #119955;
   &::placeholder {
@@ -48,46 +124,5 @@ const Input = styled.input`
     font-size: 16px;
   }
 `;
-
-interface TodoCreateProps {
-  createTodo: (text: string) => void;
-}
-
-const TodoCreate = ({ createTodo }: TodoCreateProps) => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-
-  const handleToggle = () => setOpen(!open);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setValue(e.target.value);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // 새로고침 방지
-
-    createTodo(value);
-
-    setValue(""); // input 초기화
-    setOpen(false); // open 닫기
-  };
-
-  return (
-    <>
-      <InsertFormPositioner>
-        <InsertForm onSubmit={handleSubmit}>
-          <Input
-            autoFocus
-            placeholder="What's need to be done?"
-            onChange={handleChange}
-            value={value}
-          />
-
-          <CircleButton onClick={handleToggle} open={open}>
-            <PlusCircleOutlined />
-          </CircleButton>
-        </InsertForm>
-      </InsertFormPositioner>
-    </>
-  );
-};
 
 export default React.memo(TodoCreate);

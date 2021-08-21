@@ -4,6 +4,7 @@ export type Itodo = {
   id: number;
   text: string;
   done: boolean;
+  date: string;
 };
 
 let initialTodos: Itodo[] = [];
@@ -48,13 +49,14 @@ export const useTodo = () => {
     );
   };
 
-  const createTodo = (text: string) => {
+  const createTodo = (text: string, date: string) => {
     const nextId = todoState.length + 1;
     setTodoState((prevState) =>
       prevState.concat({
         id: nextId,
         text,
         done: false,
+        date,
       }),
     );
   };

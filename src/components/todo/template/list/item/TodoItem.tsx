@@ -11,7 +11,7 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
-  const { id, text, done } = todo;
+  const { id, text, done, date } = todo;
 
   return (
     <TodoItemBlock>
@@ -19,6 +19,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
         {done && <CheckOutlined />}
       </CheckCircle>
       <Text done={done}>{text}</Text>
+      <Date done={done}>{date}</Date>
       <Remove onClick={() => removeTodo(id)}>
         <DeleteOutlined />
       </Remove>
@@ -68,6 +69,18 @@ const CheckCircle = styled.div<{ done: boolean }>`
 const Text = styled.div<{ done: boolean }>`
   flex: 1;
   font-size: 16px;
+  color: #119955;
+  ${(props) =>
+    props.done &&
+    css`
+      color: #ced4da;
+      text-decoration: line-through;
+    `}
+`;
+
+const Date = styled.div<{ done: boolean }>`
+  margin-right: 16px;
+  font-size: 14px;
   color: #119955;
   ${(props) =>
     props.done &&
