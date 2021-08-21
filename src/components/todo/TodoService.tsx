@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export type Itodo = {
+export type TodoType = {
   id: number;
   text: string;
   done: boolean;
@@ -8,16 +8,16 @@ export type Itodo = {
 };
 
 type UseTodoTypes = {
-  todoState: Itodo[];
+  todoState: TodoType[];
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
   createTodo: (text: string, date: string) => void;
 };
 
-let initialTodos: Itodo[] = [];
+let initialTodos: TodoType[] = [];
 
 export const useTodo = (): UseTodoTypes => {
-  const [todoState, setTodoState] = useState<Itodo[]>(initialTodos);
+  const [todoState, setTodoState] = useState<TodoType[]>(initialTodos);
 
   useEffect(() => {
     loadData();
@@ -43,8 +43,8 @@ export const useTodo = (): UseTodoTypes => {
   const removeTodo = (id: number) => {
     setTodoState((prevState) =>
       prevState
-        .filter((todo: Itodo) => todo.id !== id)
-        .map((todo: Itodo, index) => {
+        .filter((todo: TodoType) => todo.id !== id)
+        .map((todo: TodoType, index) => {
           todo.id = index + 1;
           return todo;
         }),

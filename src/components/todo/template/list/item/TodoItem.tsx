@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Itodo } from "components/todo/TodoService";
+import { TodoType } from "components/todo/TodoService";
 import React from "react";
 import styled, { css } from "styled-components";
 
-interface TodoItemProps {
+interface ITodoItemProps {
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
-  todo: Itodo;
+  todo: TodoType;
 }
 
-const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+const TodoItem = ({ toggleTodo, removeTodo, todo }: ITodoItemProps) => {
   const { id, text, done, date } = todo;
 
   return (

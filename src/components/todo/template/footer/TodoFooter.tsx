@@ -1,6 +1,7 @@
-import { Itodo } from "components/todo/TodoService";
 import React from "react";
 import styled from "styled-components";
+
+import { TodoType } from "components/todo/TodoService";
 
 const TodoFooterBlock = styled.div`
   display: flex;
@@ -16,11 +17,7 @@ const LeftText = styled.div`
   font-size: 18px;
 `;
 
-interface HooksTodoHeadProps {
-  todos: Itodo[];
-}
-
-const Todofooter = ({ todos }: HooksTodoHeadProps) => {
+const Todofooter = ({ todos }: { todos: TodoType[] }) => {
   const undoneTasks = todos.filter((todo) => !todo.done);
   return (
     <TodoFooterBlock>

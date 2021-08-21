@@ -1,4 +1,4 @@
-import { Itodo } from "components/todo/TodoService";
+import { TodoType } from "components/todo/TodoService";
 import React from "react";
 import styled from "styled-components";
 import TodoItem from "./item/TodoItem";
@@ -10,13 +10,13 @@ const TodoListBlock = styled.div`
   overflow-y: auto;
 `;
 
-interface TodoListProps {
-  todos: Itodo[];
+interface ITodoListProps {
+  todos: TodoType[];
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
 }
 
-const TodoList = ({ toggleTodo, removeTodo, todos }: TodoListProps) => {
+const TodoList = ({ toggleTodo, removeTodo, todos }: ITodoListProps) => {
   todos.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   return (

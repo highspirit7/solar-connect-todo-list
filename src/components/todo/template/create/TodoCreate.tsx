@@ -6,11 +6,11 @@ import moment from "moment";
 
 import { warning } from "utils/modals";
 
-interface TodoCreateProps {
+interface ITodoCreateProps {
   createTodo: (text: string, date: string) => void;
 }
 
-const TodoCreate = ({ createTodo }: TodoCreateProps) => {
+const TodoCreate = ({ createTodo }: ITodoCreateProps) => {
   const [value, setValue] = useState("");
   const [dateString, setDateString] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
