@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 export type TodoType = {
   id: number;
@@ -18,6 +20,8 @@ let initialTodos: TodoType[] = [];
 
 export const useTodo = (): UseTodoTypes => {
   const [todoState, setTodoState] = useState<TodoType[]>(initialTodos);
+
+  const { confirm } = Modal;
 
   useEffect(() => {
     loadData();
@@ -41,14 +45,25 @@ export const useTodo = (): UseTodoTypes => {
   };
 
   const removeTodo = (id: number) => {
-    setTodoState((prevState) =>
-      prevState
-        .filter((todo: TodoType) => todo.id !== id)
-        .map((todo: TodoType, index) => {
-          todo.id = index + 1;
-          return todo;
-        }),
-    );
+    confirm({
+      title: "이 투두 아이템을 삭제하시겠습니까?",
+      // eslint-disable-next-line react/react-in-jsx-scope
+      icon: <ExclamationCircleOutlined />,
+      content: "이미 완료한 아이템이 아닐 수도 있습니다.",
+      onOk() {
+        setTodoState((prevState) =>
+          prevState
+            .filter((todo: TodoType) => todo.id !== id)
+            .map((todo: TodoType, index) => {
+              todo.id = index + 1;
+              return todo;
+            }),
+        );
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
   };
 
   const createTodo = (text: string, date: string) => {
