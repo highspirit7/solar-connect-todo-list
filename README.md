@@ -31,4 +31,4 @@ Project start for development
 ```npm run start```   
 
 ## 기술 스택
-React, AntD, Styled-Components, TypeScript
+React, AntDesign, Styled-Components, TypeScript
