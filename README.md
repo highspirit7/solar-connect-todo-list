@@ -1,8 +1,5 @@
 # 원티드 프론트엔드 프리온보딩 코스 - 솔라커넥트 과제 #1
 
-## Demo Link
-[데모 링크](https://agitated-swanson-7ded92.netlify.app)
-
 ## 프로젝트 개요
 간단한 투두 리스트 프로젝트
 - 상단에 현재 시간 표시
